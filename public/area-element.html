@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- import Vue.js -->
+    <script src="//vuejs.org/js/vue.min.js"></script>
+    <!-- import stylesheet -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- import element -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!-- import form-create/element -->
+    <script src="//unpkg.com/form-create/dist/form-create.elm.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/form-create/dist/form-create.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/form-create@1.4.4/district/province_city_area.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <form-create ref="fc" v-model="fApi" :rule="rule" :option="option"></form-create>
+</div>
+</body>
+<script>
+    new Vue({
+        el: '#app1',
+        data: {
+            fApi: {},
+            model: {},
+            rule: [{
+                type: 'row',
+                children: [
+                    {
+                        type: 'el-col',
+                        props: {
+                            span: 12
+                        },
+                        children: [
+                            formCreate.maker.input('商品名称', 'goods_name', 'iphone'),
+                            formCreate.maker.number('商品价格', 'goods_price', 8688)
+                        ]
+                    },
+                    {
+                        type: 'el-col',
+                        props: {
+                            span: 12
+                        },
+                        children: [
+                            formCreate.maker.dateTime('创建时间', 'create_at'),
+                            formCreate.maker.radio('是否显示', 'is_show').options([
+                                {value: 1, label: '显示'},
+                                {value: 0, label: '不显示'}
+                            ])
+                        ]
+                    }
+                ]
+            }, {
+                type: 'el-button',
+                field: 'btn',
+                props: {
+                    type: 'primary',
+                    field: 'btn',
+                    loading: true
+                }
+            }],
+            option: {
+                onSubmit: function (formData) {
+                    alert(JSON.stringify(formData));
+                }
+            }
+        },
+        mounted: function () {
+            // this.model = this.fApi.model();
+        }
+    });
+</script>
+</html>

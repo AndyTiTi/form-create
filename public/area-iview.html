@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        @import url("//cdn.jsdelivr.net/npm/iview/dist/styles/iview.css");
+
+        #app {
+            padding: 32px;
+        }
+    </style>
+    <!-- import Vue.js -->
+    <script src="//vuejs.org/js/vue.min.js"></script>
+    <!-- import stylesheet -->
+    <link rel="stylesheet" href="//unpkg.com/iview/dist/styles/iview.css">
+    <!-- import iView -->
+    <script src="//unpkg.com/iview/dist/iview.min.js"></script>
+    <!-- import form-create/iview -->
+    <script src="//unpkg.com/form-create/dist/form-create.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/form-create@1.4.4/district/province_city_area.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <form-create :rule="rule"/>
+</div>
+</body>
+<script>
+    // ***********Vue**********
+    new Vue({
+        el: "#app",
+        data: {
+            rule: [{
+                type: 'row',
+                children: [
+                    {
+                        type: 'i-col',
+                        props: {
+                            span: 12
+                        },
+                        children: [
+                            formCreate.maker.input('商品名称', 'goods_name', 'iphone'),
+                            formCreate.maker.number('商品加个', 'goods_price', 8688)
+                        ]
+                    },
+                    {
+                        type: 'i-col',
+                        props: {
+                            span: 12
+                        },
+                        children: [
+                            formCreate.maker.dateTime('创建时间', 'create_at'),
+                            formCreate.maker.radio('是否显示', 'is_show').options([
+                                {value: 1, label: '显示'},
+                                {value: 0, label: '不显示'}
+                            ])
+                        ]
+                    }
+                ]
+            }]
+        }
+    })
+    // ***********Browser**********
+    // 通过 maker 生成器动态生成一个正在加载的 iview 按钮组件
+    var rule1 = [
+        formCreate.maker.create('i-button').props({
+            type: 'primary',
+            field: 'btn',
+            loading: true
+        })
+    ]
+    // 通过json方式动态生成一个iview 按钮组件
+    var rule2 = [
+        {
+            type: 'i-button',
+            field: 'btn',
+            props: {
+                type: 'primary',
+                field: 'btn',
+                loading: true
+            }
+        }
+    ]
+
+    // 通过json方式动态生成一个表单 -- 配置灵活
+    var rule3 = [{
+        type: 'row',
+        children: [
+            {
+                type: 'i-col',
+                props: {
+                    span: 12
+                },
+                children: [
+                    formCreate.maker.input('商品名称', 'goods_name', 'iphone'),
+                    formCreate.maker.number('商品加个', 'goods_price', 8688)
+                ]
+            },
+            {
+                type: 'i-col',
+                props: {
+                    span: 12
+                },
+                children: [
+                    formCreate.maker.dateTime('创建时间', 'create_at'),
+                    formCreate.maker.radio('是否显示', 'is_show').options([
+                        {value: 1, label: '显示'},
+                        {value: 0, label: '不显示'}
+                    ])
+                ]
+            }
+        ]
+    }]
+    // maker和json混合动态生成生成一个表单
+    var rule4 = [
+        formCreate.maker.cascader('所在区域1', 'address1', ['陕西省', '西安市', '新城区']).props({
+            data: window.province_city_area
+        }), {
+            type: "cascader",
+            title: "所在区域2",
+            field: "address2",
+            value: ['陕西省', '西安市', '新城区'],
+            props: {
+                //可选项的数据源，格式参照示例说明
+                data: window.province_city_area,
+            },
+        }, formCreate.maker.create('i-button').props({
+            type: 'primary',
+            field: 'btn',
+            loading: true
+        }), {
+            type: 'i-button',
+            field: 'btn',
+            props: {
+                type: 'primary',
+                field: 'btn',
+                loading: true
+            }
+        }, {
+            type: 'row',
+            children: [
+                {
+                    type: 'i-col',
+                    props: {
+                        span: 12
+                    },
+                    children: [
+                        formCreate.maker.input('商品名称', 'goods_name', 'iphone'),
+                        formCreate.maker.number('商品加个', 'goods_price', 8688)
+                    ]
+                },
+                {
+                    type: 'i-col',
+                    props: {
+                        span: 12
+                    },
+                    children: [
+                        formCreate.maker.dateTime('创建时间', 'create_at'),
+                        formCreate.maker.radio('是否显示', 'is_show').options([
+                            {value: 1, label: '显示'},
+                            {value: 0, label: '不显示'}
+                        ])
+                    ]
+                }
+            ]
+        }]
+    $f = formCreate.create(rule4);
+</script>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #app {
+            padding: 32px;
+        }
+    </style>
+    <!-- import Vue.js -->
+    <script src="//vuejs.org/js/vue.min.js"></script>
+    <!-- import stylesheet -->
+    <link rel="stylesheet" href="//unpkg.com/iview/dist/styles/iview.css">
+    <!-- import iView -->
+    <script src="//unpkg.com/iview/dist/iview.min.js"></script>
+    <!-- import form-create/iview -->
+    <script src="//unpkg.com/form-create/dist/form-create.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/form-create@1.4.4/district/province_city_area.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <button type="button" class="ivu-btn ivu-btn-primary" id="button1">set-value</button>
+    <button type="button" class="ivu-btn ivu-btn-primary" id="button2">get-value</button>
+    <button type="button" class="ivu-btn ivu-btn-primary" id="button3">disabled</button>
+</div>
+</body>
+<script>
+    let rule = [
+        formCreate.maker.template('<i-button @click="onClick" long :disabled="disabled">{{num}}</i-button>', new Vue({
+            data: {
+                num: 0,
+                disabled: false
+            },
+            methods: {
+                onClick: function () {
+                    this.num++;
+                    alert(this.num)
+                    window.num = this.num;
+                },
+                //表单禁用事件
+                onDisabled: function (disabled) {
+                    this.disabled = disabled;
+                },
+                //表单重置事件
+                onResetField: function () {
+                    this.num = 0;
+                },
+                //表单提交事件
+                onInput: function (cb, $f) {
+                    cb(this.num);
+                },
+                //通过setValue,changeField,changeValue方法设置表单值时事件
+                onSetValue: function (val, $f) {
+                    this.num = val;
+                }
+            },
+            created: function () {
+                this.$on('fc:disabled', this.onDisabled);
+                this.$on('fc:reset-field', this.onResetField);
+                this.$on('fc:input', this.onInput);
+                this.$on('fc:set-value', this.onSetValue);
+            }
+        }), 'tmp', '自定义 title')]
+    $f = formCreate.create(rule);
+
+    function $(id) {
+        return document.getElementById(id);
+    }
+
+    $('button1').onclick = function () {
+        $f.refresh()
+        alert(window.num)
+    }
+    //
+    // $('button2').onclick = function () {
+    //     $f.getValue('btn');
+    // }
+    //
+    // $('button3').onclick = function () {
+    //     $f.disabled('btn')
+    // }
+</script>
+</html>

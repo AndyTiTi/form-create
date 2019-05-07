@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #app {
+            padding: 32px;
+        }
+    </style>
+    <!-- import Vue.js -->
+    <script src="//vuejs.org/js/vue.min.js"></script>
+    <!-- import stylesheet -->
+        <link rel="stylesheet" href="//unpkg.com/iview/dist/styles/iview.css">
+    <!-- import iView -->
+    <script src="//unpkg.com/iview/dist/iview.min.js"></script>
+    <!-- import form-create/iview -->
+    <script src="//unpkg.com/form-create/dist/form-create.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/form-create@1.4.4/district/province_city_area.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <button type="button" class="ivu-btn ivu-btn-primary" id="button1">set-value</button>
+    <button type="button" class="ivu-btn ivu-btn-primary" id="button2">get-value</button>
+    <button type="button" class="ivu-btn ivu-btn-primary" id="button3">disabled</button>
+</div>
+</body>
+<script>
+    let rule = [
+        formCreate.maker.create('i-button', 'btn').props({
+            type: "primary",
+            size: "large",
+            shape: undefined,
+            long: true,
+            htmlType: "button",
+            disabled: false,
+            icon: "ios-upload",
+            loading: false,
+            show: true
+        }).on({
+            "fc:disabled": function (disabled, $f) {
+                alert('disabled');
+                $f.component().btn.props.disabled = disabled;
+            },
+            "fc:input": function (cb, $f) {
+                alert('input');
+                cb($f.component().btn.props.disabled);
+            },
+            "fc:set-value": function (val, $f) {
+                alert('set-value');
+                $f.component().btn.props.disabled = val;
+            }
+        }).col({span: 12}).children(['测试自定义按钮'])
+    ]
+    $f = formCreate.create(rule);
+
+    function $(id) {
+        return document.getElementById(id);
+    }
+
+    $('button1').onclick = function () {
+        $f.setValue('btn', false);
+    }
+
+    $('button2').onclick = function () {
+        $f.getValue('btn');
+    }
+
+    $('button3').onclick = function () {
+        $f.disabled('btn')
+    }
+</script>
+</html>
